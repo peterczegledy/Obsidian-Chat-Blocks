@@ -9,6 +9,3 @@ main.js.map
 # OS junk
 .DS_Store
 Thumbs.db
-
-# obsidian dev
-.obsidian/

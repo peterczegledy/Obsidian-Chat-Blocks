@@ -13,7 +13,6 @@ export default class ChatAlignPlugin extends Plugin {
 				let chatName = "Chat";
 				let lines = [...rawLines];
 
-				// title="Valami"
 				const firstLine = rawLines[0];
 
 				if (firstLine) {
