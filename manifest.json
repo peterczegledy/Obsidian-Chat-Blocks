@@ -1,0 +1,10 @@
+{
+  "id": "chat-blocks",
+  "name": "Chat blocks",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Chat style blocks",
+  "author": "Péter",
+  "authorUrl": "",
+  "isDesktopOnly": false
+}

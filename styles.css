@@ -1,0 +1,160 @@
+.chat-wrapper {
+	width: 100%;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+/* HEADER */
+
+.chat-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	padding: 10px 12px;
+
+	background: var(--background-secondary);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.chat-header-left {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.chat-back {
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.chat-avatar {
+	width: 28px;
+	height: 28px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	border-radius: 50%;
+
+	background: var(--text-accent);
+	color: white;
+	font-weight: 700;
+}
+
+.chat-name {
+	font-weight: 600;
+}
+
+.chat-menu {
+	cursor: pointer;
+	font-size: 20px;
+}
+
+/* CHAT */
+
+.chat-container {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	padding: 12px;
+}
+
+.chat-left,
+.chat-right {
+	padding: 8px 12px;
+
+	max-width: 50%;
+
+	border-radius: 12px;
+
+	white-space: pre-wrap;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
+
+.chat-left {
+	align-self: flex-start;
+	border-top-left-radius: 4px;
+	background: var(--background-secondary);
+	color: var(--text-normal);
+}
+
+.chat-right {
+	align-self: flex-end;
+	border-top-right-radius: 4px;
+	background: var(--text-accent);
+	color: white;
+}
+
+/* input bar */
+
+.chat-input-bar {
+	display: flex;
+	align-items: flex-end;
+	gap: 8px;
+
+	padding: 10px;
+
+	border-top: 1px solid var(--background-modifier-border);
+
+	background: var(--background-secondary);
+}
+
+.chat-plus {
+	width: 32px;
+	height: 32px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+
+	border-radius: 8px;
+}
+
+.chat-plus:hover {
+	background: var(--background-modifier-hover);
+}
+
+.chat-input {
+	flex: 1;
+
+	min-height: 36px;
+	max-height: 120px;
+
+	resize: vertical;
+
+	padding: 8px 10px;
+
+	border: none;
+	outline: none;
+
+	border-radius: 10px;
+
+	background: var(--background-primary);
+	color: var(--text-normal);
+
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.chat-send {
+	width: 32px;
+	height: 32px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+
+	border-radius: 8px;
+
+	background: var(--text-accent);
+	color: white;
+}
