@@ -21,8 +21,12 @@ export default class ChatAlignPlugin extends Plugin {
 					);
 
 					if (titleMatch) {
-						chatName = titleMatch[1];
-						lines = rawLines.slice(1);
+						const title = titleMatch[1];
+
+						if (title) {
+							chatName = title;
+							lines = rawLines.slice(1);
+						}
 					}
 				}
 
@@ -75,20 +79,22 @@ export default class ChatAlignPlugin extends Plugin {
 					let text: string;
 
 					if (match) {
-						side =
-							match[1].toLowerCase() === "l"
+						const direction = match[1];
+						const message = match[2];
+
+						if (direction && message) {
+							side =
+								direction.toLowerCase() === "l"
+									? "left"
+									: "right";
+							text = message;
+						} else {
+							side = alternateLeft
 								? "left"
 								: "right";
-
-						text = match[2];
-					} else {
-						side = alternateLeft
-							? "left"
-							: "right";
-
-						text = line;
-
-						alternateLeft = !alternateLeft;
+							text = line;
+							alternateLeft = !alternateLeft;
+						}
 					}
 
 					const bubble =

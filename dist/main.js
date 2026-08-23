@@ -38,8 +38,11 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
             /^title\s*=\s*"(.+?)"$/i
           );
           if (titleMatch) {
-            chatName = titleMatch[1];
-            lines = rawLines.slice(1);
+            const title = titleMatch[1];
+            if (title) {
+              chatName = title;
+              lines = rawLines.slice(1);
+            }
           }
         }
         const wrapper = el.createDiv({
@@ -78,12 +81,16 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
           let side;
           let text;
           if (match) {
-            side = match[1].toLowerCase() === "l" ? "left" : "right";
-            text = match[2];
-          } else {
-            side = alternateLeft ? "left" : "right";
-            text = line;
-            alternateLeft = !alternateLeft;
+            const direction = match[1];
+            const message = match[2];
+            if (direction && message) {
+              side = direction.toLowerCase() === "l" ? "left" : "right";
+              text = message;
+            } else {
+              side = alternateLeft ? "left" : "right";
+              text = line;
+              alternateLeft = !alternateLeft;
+            }
           }
           const bubble = chatContainer.createDiv({
             cls: side === "left" ? "chat-left" : "chat-right"
