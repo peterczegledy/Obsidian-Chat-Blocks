@@ -67,6 +67,11 @@
     overflow-wrap: anywhere;
 }
 
+.chat-left p,
+.chat-right p {
+    margin: 0;
+}
+
 .chat-left {
     align-self: flex-start;
     border-top-left-radius: 4px;
@@ -80,6 +85,11 @@
     border-top-right-radius: 4px;
     background: var(--text-accent);
     color: white;
+}
+
+.chat-right code {
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* input bar */

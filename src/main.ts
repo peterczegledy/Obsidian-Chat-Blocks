@@ -1,135 +1,152 @@
-import { Plugin } from "obsidian";
+import { MarkdownRenderer, Plugin } from "obsidian";
 
 export default class ChatAlignPlugin extends Plugin {
-	onload() {
-		this.registerMarkdownCodeBlockProcessor(
-			"chat",
-			(source, el) => {
-				const rawLines = source
-					.split("\n")
-					.map((line) => line.trim())
-					.filter((line) => line.length > 0);
 
-				let chatName = "Chat";
-				let lines = [...rawLines];
+    onload() {
 
-				const firstLine = rawLines[0];
+        this.registerMarkdownCodeBlockProcessor(
+            "chat",
+            async (source, el) => {
 
-				if (firstLine) {
-					const titleMatch = firstLine.match(
-						/^title\s*=\s*"(.+?)"$/i
-					);
+                const rawLines = source
+                    .split("\n")
+                    .map((line) => line.trim())
+                    .filter((line) => line.length > 0);
 
-					if (titleMatch) {
-						const title = titleMatch[1];
+                let chatName = "Chat";
+                let lines = [...rawLines];
 
-						if (title) {
-							chatName = title;
-							lines = rawLines.slice(1);
-						}
-					}
-				}
+                const firstLine = rawLines[0];
 
-				const wrapper = el.createDiv({
-					cls: "chat-wrapper",
-				});
+                if (firstLine) {
 
-				// HEADER
-				const header = wrapper.createDiv({
-					cls: "chat-header",
-				});
+                    const titleMatch = firstLine.match(
+                        /^title\s*=\s*"(.+?)"$/i
+                    );
 
-				const headerLeft = header.createDiv({
-					cls: "chat-header-left",
-				});
+                    if (titleMatch) {
 
-				headerLeft.createDiv({
-					cls: "chat-back",
-					text: "←",
-				});
+                        const title = titleMatch[1];
 
-				headerLeft.createDiv({
-					cls: "chat-avatar",
-					text: chatName.charAt(0).toUpperCase(),
-				});
+                        if (title) {
+                            chatName = title;
+                            lines = rawLines.slice(1);
+                        }
+                    }
+                }
 
-				headerLeft.createDiv({
-					cls: "chat-name",
-					text: chatName,
-				});
+                const wrapper = el.createDiv({
+                    cls: "chat-wrapper",
+                });
 
-				header.createDiv({
-					cls: "chat-menu",
-					text: "⋯",
-				});
+                // HEADER
 
-				// CHAT
-				const chatContainer = wrapper.createDiv({
-					cls: "chat-container",
-				});
+                const header = wrapper.createDiv({
+                    cls: "chat-header",
+                });
 
-				let alternateLeft = true;
+                const headerLeft = header.createDiv({
+                    cls: "chat-header-left",
+                });
 
-				for (const line of lines) {
-					const match = line.match(
-						/^(l|r)\s*:\s*(.+)$/i
-					);
+                headerLeft.createDiv({
+                    cls: "chat-back",
+                    text: "←",
+                });
 
-					let side: "left" | "right";
-					let text: string;
+                headerLeft.createDiv({
+                    cls: "chat-avatar",
+                    text: chatName.charAt(0).toUpperCase(),
+                });
 
-					if (match) {
-						const direction = match[1];
-						const message = match[2];
+                headerLeft.createDiv({
+                    cls: "chat-name",
+                    text: chatName,
+                });
 
-						if (direction && message) {
-							side =
-								direction.toLowerCase() === "l"
-									? "left"
-									: "right";
-							text = message;
-						} else {
-							side = alternateLeft
-								? "left"
-								: "right";
-							text = line;
-							alternateLeft = !alternateLeft;
-						}
-					}
+                header.createDiv({
+                    cls: "chat-menu",
+                    text: "⋯",
+                });
 
-					const bubble =
-						chatContainer.createDiv({
-							cls:
-								side === "left"
-									? "chat-left"
-									: "chat-right",
-						});
+                // CHAT
 
-					bubble.setText(text);
-				}
+                const chatContainer = wrapper.createDiv({
+                    cls: "chat-container",
+                });
 
-				// INPUT BAR
-				const inputBar = wrapper.createDiv({
-					cls: "chat-input-bar",
-				});
+                let alternateLeft = true;
 
-				inputBar.createDiv({
-					cls: "chat-plus",
-					text: "+",
-				});
+                for (const line of lines) {
 
-				inputBar.createEl("textarea", {
-					cls: "chat-input",
-					attr: {
-						placeholder: "Message...",
-					},
-				});
+                    const match = line.match(
+                        /^(l|r)\s*:\s*(.+)$/i
+                    );
 
-				inputBar.createDiv({
-					cls: "chat-send",
-					text: "➤",
-				});
-			}
-		);
-	}
+                    let side: "left" | "right" = alternateLeft
+                        ? "left"
+                        : "right";
+
+                    let text = line;
+
+                    if (match) {
+
+                        const direction = match[1];
+                        const message = match[2];
+
+                        if (direction && message) {
+
+                            side =
+                                direction.toLowerCase() === "l"
+                                    ? "left"
+                                    : "right";
+
+                            text = message;
+                        }
+
+                    } else {
+                        alternateLeft = !alternateLeft;
+                    }
+
+                    const bubble = chatContainer.createDiv({
+                        cls:
+                            side === "left"
+                                ? "chat-left"
+                                : "chat-right",
+                    });
+
+                    await MarkdownRenderer.render(
+                        this.app,
+                        text,
+                        bubble,
+                        "",
+                        this
+                    );
+                }
+
+                // INPUT BAR
+
+                const inputBar = wrapper.createDiv({
+                    cls: "chat-input-bar",
+                });
+
+                inputBar.createDiv({
+                    cls: "chat-plus",
+                    text: "+",
+                });
+
+                inputBar.createEl("textarea", {
+                    cls: "chat-input",
+                    attr: {
+                        placeholder: "Message...",
+                    },
+                });
+
+                inputBar.createDiv({
+                    cls: "chat-send",
+                    text: "➤",
+                });
+            }
+        );
+    }
 }

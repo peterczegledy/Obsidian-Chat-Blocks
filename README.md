@@ -13,9 +13,6 @@ Chat-style blocks for Obsidian. With this plugin, you can create simple chat-lik
 
 ## Usage
 
-> [!CAUTION]
-> At the moment, the content of the chat bubbles are rendered as plain text.
-
 The plugin has a very easy to learn syntax for the ideal user experience.
 By default, the bubbles are automatically alternated between the two sides. However, you can override this, by adding `l: ` *(for left side)*, or `r: ` *(for right side)* in front of a line.
 
@@ -25,15 +22,21 @@ You can also set the title of the chat, by writing `title = "{}"` on the first l
 
 ````
 ```chat
-title = "Jamie"
+title = "Ryan"
 
 l: Hi!
-r: Hello!
-r: How are you?
-l: I'm fine.
+l: What about the **school project**?
+r: I'm still working on it. I finished most of the research yesterday.
+l: That's good. Do you need any *help*?
+r: Maybe with the presentation. I have no idea how to make it look **good**.
+l: I can help you with that after school.
+r: That would be great! Also, I found some `useful statistics` we could add.
+l: Nice. Send them to me and I'll put them in the presentation.
+r: Sure! I'll send everything tonight.
 ```
 ````
-![](image.png)
+
+![Demo image](image.png)
 
 ### Installation
 

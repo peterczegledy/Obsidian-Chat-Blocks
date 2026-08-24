@@ -28,7 +28,7 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
   onload() {
     this.registerMarkdownCodeBlockProcessor(
       "chat",
-      (source, el) => {
+      async (source, el) => {
         const rawLines = source.split("\n").map((line) => line.trim()).filter((line) => line.length > 0);
         let chatName = "Chat";
         let lines = [...rawLines];
@@ -78,24 +78,28 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
           const match = line.match(
             /^(l|r)\s*:\s*(.+)$/i
           );
-          let side;
-          let text;
+          let side = alternateLeft ? "left" : "right";
+          let text = line;
           if (match) {
             const direction = match[1];
             const message = match[2];
             if (direction && message) {
               side = direction.toLowerCase() === "l" ? "left" : "right";
               text = message;
-            } else {
-              side = alternateLeft ? "left" : "right";
-              text = line;
-              alternateLeft = !alternateLeft;
             }
+          } else {
+            alternateLeft = !alternateLeft;
           }
           const bubble = chatContainer.createDiv({
             cls: side === "left" ? "chat-left" : "chat-right"
           });
-          bubble.setText(text);
+          await import_obsidian.MarkdownRenderer.render(
+            this.app,
+            text,
+            bubble,
+            "",
+            this
+          );
         }
         const inputBar = wrapper.createDiv({
           cls: "chat-input-bar"
