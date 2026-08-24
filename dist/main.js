@@ -28,7 +28,7 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
   onload() {
     this.registerMarkdownCodeBlockProcessor(
       "chat",
-      async (source, el) => {
+      async (source, el, ctx) => {
         const rawLines = source.split("\n").map((line) => line.trim()).filter((line) => line.length > 0);
         let chatName = "Chat";
         let lines = [...rawLines];
@@ -97,8 +97,8 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
             this.app,
             text,
             bubble,
-            "",
-            this
+            ctx.sourcePath,
+            ctx
           );
         }
         const inputBar = wrapper.createDiv({

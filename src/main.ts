@@ -6,7 +6,7 @@ export default class ChatAlignPlugin extends Plugin {
 
         this.registerMarkdownCodeBlockProcessor(
             "chat",
-            async (source, el) => {
+            async (source, el, ctx) => {
 
                 const rawLines = source
                     .split("\n")
@@ -119,8 +119,8 @@ export default class ChatAlignPlugin extends Plugin {
                         this.app,
                         text,
                         bubble,
-                        "",
-                        this
+                        ctx.sourcePath,
+                        ctx
                     );
                 }
 
