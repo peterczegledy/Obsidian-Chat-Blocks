@@ -14,14 +14,24 @@ export default class ChatAlignPlugin extends Plugin {
                     .filter((line) => line.length > 0);
 
                 let chatName = "Chat";
+                let pfpUrl: string | null = null;
                 let lines = [...rawLines];
 
-                const firstLine = rawLines[0];
+                // HEADER OPTIONS
+                let headerLines = true;
 
-                if (firstLine) {
+                while (headerLines && lines.length > 0) {
 
-                    const titleMatch = firstLine.match(
+                    const line = lines[0];
+
+                    // title = "Péter"
+                    const titleMatch = line.match(
                         /^title\s*=\s*"(.+?)"$/i
+                    );
+
+                    // pfp = "https://example.com/profile.png"
+                    const pfpMatch = line.match(
+                        /^pfp\s*=\s*"(.+?)"$/i
                     );
 
                     if (titleMatch) {
@@ -30,17 +40,32 @@ export default class ChatAlignPlugin extends Plugin {
 
                         if (title) {
                             chatName = title;
-                            lines = rawLines.slice(1);
                         }
+
+                        lines.shift();
+
+                    } else if (pfpMatch) {
+
+                        const url = pfpMatch[1];
+
+                        if (url) {
+                            pfpUrl = url;
+                        }
+
+                        lines.shift();
+
+                    } else {
+
+                        headerLines = false;
                     }
                 }
 
+                // WRAPPER
                 const wrapper = el.createDiv({
                     cls: "chat-wrapper",
                 });
 
                 // HEADER
-
                 const header = wrapper.createDiv({
                     cls: "chat-header",
                 });
@@ -54,23 +79,40 @@ export default class ChatAlignPlugin extends Plugin {
                     text: "←",
                 });
 
-                headerLeft.createDiv({
+                // AVATAR
+                const avatar = headerLeft.createDiv({
                     cls: "chat-avatar",
-                    text: chatName.charAt(0).toUpperCase(),
                 });
 
+                if (pfpUrl) {
+
+                    avatar.createEl("img", {
+                        attr: {
+                            src: pfpUrl,
+                            alt: chatName,
+                        },
+                    });
+
+                } else {
+
+                    avatar.setText(
+                        chatName.charAt(0).toUpperCase()
+                    );
+                }
+
+                // NAME
                 headerLeft.createDiv({
                     cls: "chat-name",
                     text: chatName,
                 });
 
+                // MENU
                 header.createDiv({
                     cls: "chat-menu",
                     text: "⋯",
                 });
 
                 // CHAT
-
                 const chatContainer = wrapper.createDiv({
                     cls: "chat-container",
                 });
@@ -105,6 +147,7 @@ export default class ChatAlignPlugin extends Plugin {
                         }
 
                     } else {
+
                         alternateLeft = !alternateLeft;
                     }
 
@@ -125,7 +168,6 @@ export default class ChatAlignPlugin extends Plugin {
                 }
 
                 // INPUT BAR
-
                 const inputBar = wrapper.createDiv({
                     cls: "chat-input-bar",
                 });

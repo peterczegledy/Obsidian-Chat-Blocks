@@ -16,7 +16,13 @@ Chat-style blocks for Obsidian. With this plugin, you can create simple chat-lik
 The plugin has a very easy to learn syntax for the ideal user experience.
 By default, the bubbles are automatically alternated between the two sides. However, you can override this, by adding `l: ` *(for left side)*, or `r: ` *(for right side)* in front of a line.
 
-You can also set the title of the chat, by writing `title = "{}"` on the first line.
+There are multiple parameters you can set for the chat block.
+
+|Name|function|Usage|
+|----|--------|-----|
+|Title|Set the title (i.e. the contact's name) of the chat|`title = ""`|
+|Profile picture|Set the profile picture of the contact|`pfp = ""`|
+
 
 ### Example
 
@@ -45,4 +51,3 @@ Install from Obsidian Community Plugins.
 ## Roadmap
 
 - More customization options
-- Markdown rendering for the message bubbles

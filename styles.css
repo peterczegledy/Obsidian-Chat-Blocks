@@ -5,7 +5,7 @@
     overflow: hidden;
 }
 
-/* header */
+/* HEADER */
 
 .chat-header {
     display: flex;
@@ -30,13 +30,28 @@
 .chat-avatar {
     width: 28px;
     height: 28px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     border-radius: 50%;
+
     background: var(--text-accent);
     color: white;
+
     font-weight: 700;
+
+    overflow: hidden;
+}
+
+.chat-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
 }
 
 .chat-name {
@@ -48,7 +63,7 @@
     font-size: 20px;
 }
 
-/* chat */
+/* CHAT */
 
 .chat-container {
     display: flex;
@@ -60,8 +75,11 @@
 .chat-left,
 .chat-right {
     padding: 8px 12px;
+
     max-width: 50%;
+
     border-radius: 12px;
+
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: anywhere;
@@ -74,15 +92,20 @@
 
 .chat-left {
     align-self: flex-start;
+
     border-top-left-radius: 4px;
+
     background: var(--background-secondary);
     color: var(--text-normal);
+
     border: 1px solid var(--background-modifier-border);
 }
 
 .chat-right {
     align-self: flex-end;
+
     border-top-right-radius: 4px;
+
     background: var(--text-accent);
     color: white;
 }
@@ -92,13 +115,16 @@
     background: rgba(255, 255, 255, 0.15);
 }
 
-/* input bar */
+/* INPUT BAR */
 
 .chat-input-bar {
     display: flex;
     align-items: flex-end;
+
     gap: 8px;
+
     padding: 10px;
+
     border-top: 1px solid var(--background-modifier-border);
     background: var(--background-secondary);
 }
@@ -106,10 +132,13 @@
 .chat-plus {
     width: 32px;
     height: 32px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
+
     border-radius: 8px;
 }
 
@@ -119,15 +148,22 @@
 
 .chat-input {
     flex: 1;
+
     min-height: 36px;
     max-height: 120px;
+
     resize: vertical;
+
     padding: 8px 10px;
+
     border: none;
     outline: none;
+
     border-radius: 10px;
+
     background: var(--background-primary);
     color: var(--text-normal);
+
     white-space: pre-wrap;
     word-break: break-word;
 }
@@ -135,11 +171,15 @@
 .chat-send {
     width: 32px;
     height: 32px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
+
     border-radius: 8px;
+
     background: var(--text-accent);
     color: white;
 }

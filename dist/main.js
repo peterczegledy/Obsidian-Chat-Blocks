@@ -31,18 +31,31 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
       async (source, el, ctx) => {
         const rawLines = source.split("\n").map((line) => line.trim()).filter((line) => line.length > 0);
         let chatName = "Chat";
+        let pfpUrl = null;
         let lines = [...rawLines];
-        const firstLine = rawLines[0];
-        if (firstLine) {
-          const titleMatch = firstLine.match(
+        let headerLines = true;
+        while (headerLines && lines.length > 0) {
+          const line = lines[0];
+          const titleMatch = line.match(
             /^title\s*=\s*"(.+?)"$/i
+          );
+          const pfpMatch = line.match(
+            /^pfp\s*=\s*"(.+?)"$/i
           );
           if (titleMatch) {
             const title = titleMatch[1];
             if (title) {
               chatName = title;
-              lines = rawLines.slice(1);
             }
+            lines.shift();
+          } else if (pfpMatch) {
+            const url = pfpMatch[1];
+            if (url) {
+              pfpUrl = url;
+            }
+            lines.shift();
+          } else {
+            headerLines = false;
           }
         }
         const wrapper = el.createDiv({
@@ -58,10 +71,21 @@ var ChatAlignPlugin = class extends import_obsidian.Plugin {
           cls: "chat-back",
           text: "\u2190"
         });
-        headerLeft.createDiv({
-          cls: "chat-avatar",
-          text: chatName.charAt(0).toUpperCase()
+        const avatar = headerLeft.createDiv({
+          cls: "chat-avatar"
         });
+        if (pfpUrl) {
+          avatar.createEl("img", {
+            attr: {
+              src: pfpUrl,
+              alt: chatName
+            }
+          });
+        } else {
+          avatar.setText(
+            chatName.charAt(0).toUpperCase()
+          );
+        }
         headerLeft.createDiv({
           cls: "chat-name",
           text: chatName
